@@ -1,5 +1,4 @@
-#!/usr/bin/python -B
-
+# coding:utf-8
 import unittest
 from trie import Trie
 
@@ -109,5 +108,3 @@ class TestTrie(unittest.TestCase):
         self.assertTrue(self.trie.get("Foo"))
         self.assertTrue(self.trie.get("Food") is None)
 
-if __name__ == '__main__':
-        unittest.main()
