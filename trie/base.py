@@ -7,12 +7,15 @@ class Trie:
         self.value = None
         self.value_valid = False
 
+    def _make_node(self):
+        return Trie()
+
     def __setitem__(self, key, value):
         head = key[0]
         if head in self.path:
             node = self.path[head]
         else:
-            node = Trie()
+            node = self._make_node()
             self.path[head] = node
 
         if len(key) > 1:
@@ -105,13 +108,13 @@ class Trie:
         raise StopIteration
 
     def __add__(self, other):
-        result = Trie()
+        result = self._make_node()
         result += self
         result += other
         return result
 
     def __sub__(self, other):
-        result = Trie()
+        result = self._make_node()
         result += self
         result -= other
         return result
