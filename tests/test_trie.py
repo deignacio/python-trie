@@ -1,4 +1,6 @@
 # coding:utf-8
+import itertools
+import random
 import unittest
 from trie import Trie
 
@@ -108,3 +110,27 @@ class TestTrie(unittest.TestCase):
         self.assertTrue(self.trie.get("Foo"))
         self.assertTrue(self.trie.get("Food") is None)
 
+    def test_Sorted(self):
+        self.trie = Trie(cmp)
+        letters = "abcd"
+        reverse = "dcba"
+        expected = ["".join(i)
+                    for i in itertools.product(letters, letters, letters)]
+        reverse = itertools.product(reverse, reverse, reverse)
+        for k in reverse:
+            self.trie[k] = k
+
+        self.assertEquals(expected, self.trie.keys())
+
+    def test_SortedReverse(self):
+        self.trie = Trie(cmp, reverse=True)
+        letters = "abcd"
+        reverse = "dcba"
+        forward = ["".join(i)
+                    for i in itertools.product(letters, letters, letters)]
+        reverse = ["".join(i)
+                   for i in itertools.product(reverse, reverse, reverse)]
+        for k in forward:
+            self.trie[k] = k
+
+        self.assertEquals(reverse, self.trie.keys())

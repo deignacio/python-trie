@@ -2,13 +2,17 @@
 
 class Trie:
 
-    def __init__(self):
+    def __init__(self, cmp_=None, key=None, reverse=False):
         self.path = {}
         self.value = None
         self.value_valid = False
+        self.cmp = cmp_
+        self.key = key
+        self.reverse = reverse
+        self.sorted = cmp_ is not None or key is not None or reverse
 
     def _make_node(self):
-        return Trie()
+        return Trie(cmp_=self.cmp, key=self.key, reverse = self.reverse)
 
     def __setitem__(self, key, value):
         head = key[0]
@@ -95,7 +99,11 @@ class Trie:
                 result.append(val)
             else:
                 result.append(prefix)
-        for k in self.path.iterkeys():
+        children_keys = self.path.iterkeys()
+        if self.sorted:
+            children_keys = sorted(children_keys, self.cmp, self.key,
+                                   self.reverse)
+        for k in children_keys:
             next = []
             next.extend(prefix)
             next.append(k)
